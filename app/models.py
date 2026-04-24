@@ -1,3 +1,4 @@
+from typing import Optional
 from sqlmodel import Relationship, SQLModel, Field
 from datetime import datetime, timezone
 from enum import Enum
@@ -10,7 +11,7 @@ class OrderStatus(str, Enum):
     cancelled = "cancelled"
 
 class User(SQLModel, table=True):
-    id: int = Field(primary_key=True)
+    id: Optional[int] = Field(default=None, primary_key=True)
     email: str
     password: str
     orders: list["Order"] = Relationship(back_populates="user")
