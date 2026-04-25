@@ -17,7 +17,7 @@ class User(SQLModel, table=True):
     orders: list["Order"] = Relationship(back_populates="user")
 
 class Category(SQLModel, table=True):
-    id: int = Field(primary_key=True)
+    id: Optional[int] = Field(default=None,primary_key=True)
     name: str
     products: list["Product"] = Relationship(back_populates="category")
 
