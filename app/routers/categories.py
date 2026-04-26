@@ -7,8 +7,8 @@ from app.services.categories import service_create_category, service_list_catego
 router = APIRouter()
 
 @router.post("/categories", response_model=CategoryRead)
-def create_category(user_data: CategoryCreate, session: Session = Depends(get_session)):
-    return service_create_category(**user_data.model_dump(), session=session)
+def create_category(category_data: CategoryCreate, session: Session = Depends(get_session)):
+    return service_create_category(**category_data.model_dump(), session=session)
 
 @router.get("/categories", response_model=list[CategoryRead])
 def list_categories(session: Session = Depends(get_session)):

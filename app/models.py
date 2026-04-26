@@ -22,7 +22,7 @@ class Category(SQLModel, table=True):
     products: list["Product"] = Relationship(back_populates="category")
 
 class Product(SQLModel, table=True):
-    id: int = Field(primary_key=True)
+    id: Optional[int]|None = Field(default=None, primary_key=True)
     name: str
     description:str
     price: float
