@@ -1,3 +1,4 @@
+from datetime import datetime
 from sqlmodel import SQLModel
 
 class UserCreate(SQLModel):
@@ -28,3 +29,23 @@ class ProductRead(SQLModel):
     description: str
     price: float
     quantity: int
+
+class OrderItemCreate(SQLModel):
+    product_id: int
+    quantity: int
+
+class OrderItemRead(SQLModel):
+    id: int
+    product_id: int
+    quantity: int
+    curr_price: float
+
+class OrderCreate(SQLModel):
+    items: list[OrderItemCreate]
+
+class OrderRead(SQLModel):
+    id: int
+    total_price: float
+    status: str
+    creation_time: datetime
+    # items: list[OrderItemRead]

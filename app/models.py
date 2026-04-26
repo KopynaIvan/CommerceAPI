@@ -32,7 +32,7 @@ class Product(SQLModel, table=True):
     orderitems: list["OrderItem"] = Relationship(back_populates="product")
 
 class Order(SQLModel, table=True):
-    id: int = Field(primary_key=True)
+    id: Optional[int] = Field(default=None,primary_key=True)
     total_price: float
     status: OrderStatus 
     creation_time: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
@@ -42,7 +42,7 @@ class Order(SQLModel, table=True):
 
 
 class OrderItem(SQLModel, table=True):
-    id: int = Field(primary_key=True)
+    id: Optional[int] = Field(default=None, primary_key=True)
     curr_price: float
     quantity: int
     product_id: int = Field(foreign_key="product.id")
