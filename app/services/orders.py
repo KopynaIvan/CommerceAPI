@@ -3,6 +3,14 @@ from fastapi import HTTPException
 
 from app.models import OrderStatus, Product, Order, OrderItem
 
+ALLOWED_TRANSITIONS = {
+    OrderStatus.pending: [OrderStatus.paid, OrderStatus.cancelled],
+    OrderStatus.paid: [OrderStatus.shipped, OrderStatus.cancelled],
+    OrderStatus.shipped: [OrderStatus.delivered, OrderStatus.cancelled],
+    OrderStatus.delivered: [],
+    OrderStatus.cancelled: [],
+}
+
 def service_create_order(items: list, user_id: int, session: Session):
     total_price = 0
     products = {}
@@ -42,3 +50,22 @@ def service_create_order(items: list, user_id: int, session: Session):
     session.commit()
     
     return order
+
+def service_update_order_status(order_id: int, new_status: OrderStatus, session: Session):
+    order = session.get(Order, order_id)
+
+    if not order:
+        raise HTTPException(status_code=404, detail="such order is nonexistent")
+
+    if new_status not in ALLOWED_TRANSITIONS[order.status]:
+        raise HTTPException(status_code=400, detail="Invalid status transition")
+
+    order.status = new_status
+
+    session.add(order)
+    session.commit()
+    session.refresh(order)
+
+    return order
+
+    

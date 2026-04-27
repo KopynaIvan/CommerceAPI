@@ -1,6 +1,8 @@
 from datetime import datetime
 from sqlmodel import SQLModel
 
+from app.models import OrderStatus
+
 class UserCreate(SQLModel):
     email: str
     password:str
@@ -49,3 +51,6 @@ class OrderRead(SQLModel):
     status: str
     creation_time: datetime
     # items: list[OrderItemRead]
+
+class OrderStatusUpdate(SQLModel):
+    status: OrderStatus
