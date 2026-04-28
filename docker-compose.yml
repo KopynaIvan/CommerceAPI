@@ -11,6 +11,7 @@ services:
       - ALGORITHM=${ALGORITHM}
       - REDIS_URL=redis://redis:6379/0
       - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
+      - STRIPE_WEBHOOK_SECRET=${STRIPE_WEBHOOK_SECRET}
     depends_on:
       - db
       - redis
